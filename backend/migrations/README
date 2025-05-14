@@ -1,0 +1,20 @@
+Generic single-database configuration.
+
+## Creating revisions
+
+```
+alembic revision --autogenerate -m "Describe your change"
+```
+
+
+## Running migrations
+
+Upgrade with
+```
+alembic upgrade head
+```
+
+and rollback with:
+```
+alembic downgrade -1
+```
