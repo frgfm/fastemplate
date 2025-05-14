@@ -9,7 +9,7 @@ from enum import Enum
 from pydantic import EmailStr
 from sqlmodel import Field, SQLModel, String
 
-__all__ = ["User"]
+__all__ = ["User", "UserRole"]
 
 
 class UserRole(str, Enum):
