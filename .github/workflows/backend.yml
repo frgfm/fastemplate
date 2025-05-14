@@ -136,7 +136,7 @@ jobs:
           version: ${{ env.UV_VERSION }}
       - name: Run dependency sync checker
         run: make deps-check
-  
+
   headers:
     runs-on: ubuntu-latest
     steps:
