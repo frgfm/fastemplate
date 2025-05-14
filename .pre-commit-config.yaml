@@ -1,0 +1,36 @@
+default_language_version:
+    python: python3.11
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: 'v5.0.0'
+    hooks:
+      - id: check-yaml
+        exclude: .conda
+      - id: check-toml
+      - id: check-added-large-files
+      - id: end-of-file-fixer
+      - id: trailing-whitespace
+      - id: check-ast
+      - id: check-json
+      - id: check-merge-conflict
+      - id: no-commit-to-branch
+        args: ['--branch', 'main']
+      - id: debug-statements
+        language_version: python3
+  - repo: https://github.com/compilerla/conventional-pre-commit
+    rev: 'v4.0.0'
+    hooks:
+      - id: conventional-pre-commit
+        stages: [commit-msg]
+  - repo: https://github.com/charliermarsh/ruff-pre-commit
+    rev: 'v0.11.9'
+    hooks:
+      - id: ruff
+        args: ["--fix", "--config", "backend/pyproject.toml"]
+      - id: ruff-format
+        args: ["--config", "backend/pyproject.toml"]
+  - repo: https://github.com/astral-sh/uv-pre-commit
+    rev: '0.7.3'
+    hooks:
+      - id: uv-lock
+        args: ["--locked", "--project", "backend"]
