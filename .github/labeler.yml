@@ -1,0 +1,66 @@
+# High-level service labels
+'service: backend':
+- changed-files:
+  - any-glob-to-any-file: backend/*
+
+# Secondary
+'ext: ci':
+- changed-files:
+  - any-glob-to-any-file: .github/*
+
+'topic: style':
+- changed-files:
+  - any-glob-to-any-file:
+    - '**/.pre-commit-config.yaml'
+
+'topic: docs':
+- changed-files:
+  - any-glob-to-any-file:
+    - '**/README.md'
+    - '**/CONTRIBUTING.md'
+    - '**/CODE_OF_CONDUCT.md'
+    - '**/Makefile'
+    - '**/.env.example'
+
+'topic: cursor':
+- changed-files:
+  - any-glob-to-any-file:
+    - '.cursor/*'
+
+# Orchestration
+'func: build':
+- changed-files:
+  - any-glob-to-any-file:
+    - '**/pyproject.toml'
+    - '**/uv.lock'
+    - '**/docker-compose.*'
+    - '**/Dockerfile'
+    - '**/entrypoint.sh'
+
+########################################################
+# Backend-specific
+########################################################
+
+# Database
+'module: database':
+- changed-files:
+  - any-glob-to-any-file:
+    - backend/src/app/db.py
+    - backend/src/app/models.py
+    - backend/migrations/*
+# Routers
+'router: login':
+- changed-files:
+  - any-glob-to-any-file:
+    - backend/src/app/api/*/routers/login.py
+
+'router: users':
+- changed-files:
+  - any-glob-to-any-file:
+    - backend/src/app/api/*/routers/users.py
+
+# Tests
+'ext: tests':
+- changed-files:
+  - any-glob-to-any-file:
+    - backend/tests/*
