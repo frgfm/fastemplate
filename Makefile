@@ -84,3 +84,13 @@ stop-test: ${COMPOSE_FILE_TEST}
 test-backend: start-test ${COMPOSE_FILE_TEST} ${BACKEND_TEST_DIR}
 	- docker compose -f ${COMPOSE_FILE_TEST} exec -T backend_test pytest --cov=app
 	make stop-test
+
+
+########################################################
+# Migrations
+########################################################
+
+revision:
+	docker compose -f ${COMPOSE_FILE_TEST} up -d --wait db
+	- docker compose -f ${COMPOSE_FILE_TEST} run --rm migrate sh -c "alembic revision --autogenerate -m '$(MESSAGE)'"
+	make stop-test
