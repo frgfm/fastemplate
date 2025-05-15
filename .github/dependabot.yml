@@ -36,10 +36,3 @@ updates:
     allow:
       - dependency-name: "python"
       - dependency-name: "ghcr.io/astral-sh/uv"
-  - package-ecosystem: "docker-compose"
-    schedule:
-      interval: "daily"
-    allow:
-      - dependency-name: "postgres"
-      - dependency-name: "localstack/localstack"
-      - dependency-name: "traefik"
