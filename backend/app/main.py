@@ -91,7 +91,7 @@ app.add_middleware(
 
 
 if isinstance(settings.SENTRY_DSN, str):
-    app.add_middleware(SentryAsgiMiddleware)
+    app.add_middleware(SentryAsgiMiddleware)  # type: ignore[arg-type]
 
 # APM & Logs
 if isinstance(settings.LOGFIRE_TOKEN, str):
