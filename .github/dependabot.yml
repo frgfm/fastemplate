@@ -9,10 +9,6 @@ updates:
     directory: '/'
     schedule:
       interval: 'daily'
-  - package-ecosystem: npm
-    directory: '/browser-extension'
-    schedule:
-      interval: 'daily'
   - package-ecosystem: "uv"
     directory: "backend/"
     schedule:
