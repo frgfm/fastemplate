@@ -1,0 +1,83 @@
+name: fastemplate
+
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      - POSTGRES_DB=fastemplate-db
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    healthcheck:
+      test: ["CMD-SHELL", "sh -c 'pg_isready -U postgres -d fastemplate-db'"]
+      interval: 10s
+      timeout: 3s
+      retries: 3
+
+  migrate:
+    image: ghcr.io/frgfm/fastemplate:latest
+    build:
+      context: ./backend
+    depends_on:
+      db:
+        condition: service_healthy
+    env_file:
+      - .env.example
+    environment:
+      - POSTGRES_URL=postgresql+asyncpg://postgres:postgres@db/fastemplate-db
+      - RESEND_VERIFY_API_KEY=false
+    volumes:
+      - ./backend/migrations/versions:/app/migrations/versions
+    command: ["sh", "-c", "alembic upgrade head"]
+
+  localstack:
+    image: localstack/localstack:s3-latest
+    ports:
+      - 4566:4566
+    environment:
+      - GATEWAY_LISTEN=0.0.0.0:4566
+      - SERVICES=s3
+      - AWS_DEFAULT_REGION=us-east-1
+    healthcheck:
+      test: ["CMD-SHELL", "curl http://localhost:4566/fastemplate"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  backend:
+    image: ghcr.io/frgfm/fastemplate:latest
+    build:
+      context: ./backend
+    depends_on:
+      db:
+        condition: service_healthy
+      localstack:
+        condition: service_healthy
+    ports:
+      - "5050:5050"
+    env_file:
+      - .env.example
+    environment:
+      - POSTGRES_URL=postgresql+asyncpg://postgres:postgres@db/fastemplate-db
+      - RESEND_VERIFY_API_KEY=false
+      - DEBUG=true
+      - JWT_SECRET=${JWT_SECRET}
+    volumes:
+      - ./backend/app/:/app/app/
+  backend_test:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile.test
+    depends_on:
+      db:
+        condition: service_healthy
+      localstack:
+        condition: service_healthy
+    env_file:
+      - .env.example
+    environment:
+      - POSTGRES_URL=postgresql+asyncpg://postgres:postgres@db/fastemplate-db
+      - RESEND_VERIFY_API_KEY=false
+      - DEBUG=true
+    volumes:
+      - ./backend/app/:/app/app/
+      - ./backend/tests/:/app/tests/
