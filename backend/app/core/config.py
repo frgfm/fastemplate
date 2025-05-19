@@ -32,6 +32,8 @@ class Settings(BaseSettings):
     RESEND_VERIFY_API_KEY: bool = os.environ.get("RESEND_VERIFY_API_KEY", "true").lower() == "true"
     # DB
     POSTGRES_URL: str = os.environ["POSTGRES_URL"]
+    POSTGRES_MAX_POOL_SIZE: int = int(os.environ.get("POSTGRES_MAX_POOL_SIZE", 10))
+    POSTGRES_MAX_OVERFLOW: int = int(os.environ.get("POSTGRES_MAX_OVERFLOW", 20))
 
     @field_validator("POSTGRES_URL")
     @classmethod
