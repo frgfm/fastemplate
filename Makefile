@@ -85,6 +85,10 @@ test-backend: start-test ${COMPOSE_FILE_TEST} ${BACKEND_TEST_DIR}
 	- docker compose -f ${COMPOSE_FILE_TEST} exec -T backend_test pytest --cov=app
 	make stop-test
 
+load-test: ${COMPOSE_FILE_TEST}
+	docker compose -f ${COMPOSE_FILE_TEST} up -d --wait locust
+	docker compose -f ${COMPOSE_FILE_TEST} exec -T locust locust --headless --users 200 --spawn-rate 10  -t 60 -H http://backend:5050 -f /mnt/locust/locustfile.py --only-summary
+	make stop-test
 
 ########################################################
 # Migrations

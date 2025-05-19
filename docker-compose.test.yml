@@ -63,6 +63,7 @@ services:
       - JWT_SECRET=${JWT_SECRET}
     volumes:
       - ./backend/app/:/app/app/
+
   backend_test:
     build:
       context: ./backend
@@ -81,3 +82,16 @@ services:
     volumes:
       - ./backend/app/:/app/app/
       - ./backend/tests/:/app/tests/
+
+  locust:
+    image: locustio/locust:2.37.3
+    depends_on:
+      backend:
+        condition: service_healthy
+    ports:
+      - "8089:8089"
+    env_file:
+      - .env.example
+    volumes:
+      - ./docker/locustfile.py:/mnt/locust/locustfile.py
+    command: -f /mnt/locust/locustfile.py -H http://backend:5050 --users 200 --spawn-rate 10
