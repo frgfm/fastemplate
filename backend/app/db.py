@@ -25,7 +25,12 @@ log_formatter = logging.Formatter("%(levelname)s:     %(message)s")
 stream_handler.setFormatter(log_formatter)
 logger.addHandler(stream_handler)
 
-engine = create_async_engine(settings.POSTGRES_URL, echo=False)
+engine = create_async_engine(
+    settings.POSTGRES_URL,
+    echo=False,
+    pool_size=settings.POSTGRES_POOL_SIZE,
+    max_overflow=settings.POSTGRES_MAX_OVERFLOW,
+)
 
 
 async def get_next_id(session: AsyncSession, table_name: str) -> int:

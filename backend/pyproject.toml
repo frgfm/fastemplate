@@ -130,6 +130,7 @@ known-third-party = ["fastapi"]
 "backend/app/main.py" = ["ANN"]
 "backend/app/schemas/**.py" = ["A"]
 "backend/app/models.py" = ["A"]
+"docker/locustfile.py" = ["ANN"]
 
 [tool.ruff.format]
 quote-style = "double"

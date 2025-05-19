@@ -32,6 +32,8 @@ class Settings(BaseSettings):
     RESEND_VERIFY_API_KEY: bool = os.environ.get("RESEND_VERIFY_API_KEY", "true").lower() == "true"
     # DB
     POSTGRES_URL: str = os.environ["POSTGRES_URL"]
+    POSTGRES_POOL_SIZE: int = int(os.environ.get("POSTGRES_POOL_SIZE", 10))
+    POSTGRES_MAX_OVERFLOW: int = int(os.environ.get("POSTGRES_MAX_OVERFLOW", 20))
 
     @field_validator("POSTGRES_URL")
     @classmethod
@@ -52,7 +54,7 @@ class Settings(BaseSettings):
     S3_SECRET_KEY: str = os.environ["S3_SECRET_KEY"]
     S3_REGION: str = os.environ["S3_REGION"]
     S3_ENDPOINT_URL: str = os.environ["S3_ENDPOINT_URL"]
-    S3_BUCKET_NAME: str = os.environ.get("S3_BUCKET_NAME", "frictionless")
+    S3_BUCKET_NAME: str = os.environ.get("S3_BUCKET_NAME", "fastemplate")
     S3_PROXY_URL: str = os.environ.get("S3_PROXY_URL", "")
     S3_URL_EXPIRATION: int = int(os.environ.get("S3_URL_EXPIRATION") or 24 * 3600)
 
