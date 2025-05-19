@@ -28,7 +28,7 @@ logger.addHandler(stream_handler)
 engine = create_async_engine(
     settings.POSTGRES_URL,
     echo=False,
-    pool_size=settings.POSTGRES_MAX_POOL_SIZE,
+    pool_size=settings.POSTGRES_POOL_SIZE,
     max_overflow=settings.POSTGRES_MAX_OVERFLOW,
 )
 
