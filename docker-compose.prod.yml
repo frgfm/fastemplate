@@ -50,7 +50,7 @@ services:
       - "traefik.http.middlewares.test-ratelimit.ratelimit.sourcecriterion.ipstrategy.depth=2"
 
   traefik:
-    image: traefik:v2.11.22
+    image: traefik:3.4.1
     logging:
       driver: "json-file"
       options:
