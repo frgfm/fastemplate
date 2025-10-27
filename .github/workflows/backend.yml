@@ -58,7 +58,7 @@ jobs:
         run: |
           docker compose -f docker-compose.test.yml logs backend --tail=100 > build-logs.txt
           cat build-logs.txt
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v5
         if: steps.start-docker.outcome == 'failure'
         with:
           name: build-docker-logs
